@@ -1,8 +1,13 @@
 <template>
 <div>
-    <nav class="navbar navbar-light">
-        <a href="/" class="navbar-brand">Todos</a>
+    <nav class="navbar navbar-light bg-light border-bottom">
+        <a href="/" class="navbar-brand">
+            <img src="./vue-logo.png" height="40px" alt="Vue logo">
+            Todos
+        </a>
     </nav>
+    <api :backendUrl="'localhost:3000'"
+         @dataLoadingSuccess="setTodos" />
     <div class="container">
         <section class="card my-2 p-4">
             <input type="text" class="new-todo" placeholder="What needs to be done?"
@@ -27,22 +32,28 @@
 import TodoFooter from "./TodoFooter.vue";
 import TodoHeader from "./TodoHeader.vue";
 import TodoItem from "./TodoItem.vue";
+import APIComponent from "./APIComponent.vue";
 
 import { Vue, Component } from "vue-property-decorator";
-import { Todo } from "../models";
+import {AppState, Todo} from "../models";
 
 @Component({
     components: {
         "todo-item": TodoItem,
         "todo-footer": TodoFooter,
-        "todo-header": TodoHeader
+        "todo-header": TodoHeader,
+        "api": APIComponent,
     }
     })
-export default class TodoApp extends Vue {
+export default class TodoApp extends Vue implements AppState {
     newTodoTitle: string = '';
     todos: Todo[] = [
         { completed: false, title: 'Use Vue with typescript!' }
     ]
+
+    setTodos(todos: Todo[]): void {
+        this.todos = todos;
+    }
 
     createTodo(): void {
         const title = this.newTodoTitle.trim();

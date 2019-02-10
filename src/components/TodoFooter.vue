@@ -3,6 +3,7 @@
     <span class="todo-count">
         <strong>{{itemsLeft}}</strong> {{ itemSingularOrPlural }} left to complete.
     </span>
+    <br>
     <button class="btn btn-secondary" @click="clearCompleted()">Clear completed</button>
 </footer>
 </template>
