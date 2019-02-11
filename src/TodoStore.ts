@@ -26,10 +26,6 @@ export default class TodoStore {
         }
     }
 
-    get size(): number {
-        return this.todos.length;
-    }
-
     createTodo(title: string): void {
         const newtodo: Todo = {
             title, completed: false
@@ -58,10 +54,15 @@ export default class TodoStore {
     }
 
     toggleAll(): void {
-        const stateForAll = this.completed.length !== this.todos.length;
+        console.log(this);
+        const stateForAll = this.completed.length !== this.size;
         for (const todo of this.todos) {
             todo.completed = stateForAll
         }
+    }
+
+    get size(): number {
+        return this.todos.length;
     }
 
     get completed(): Todo[] {
