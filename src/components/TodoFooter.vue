@@ -4,21 +4,24 @@
         <strong>{{itemsLeft}}</strong> {{ itemSingularOrPlural }} left to complete.
     </span>
     <br>
-    <button class="btn btn-secondary" @click="clearCompleted()">Clear completed</button>
+    <button class="btn btn-secondary" @click="todoStore.clearCompleted()">Clear completed</button>
 </footer>
 </template>
 
 <script lang="ts">
 import { Vue, Component, Prop } from "vue-property-decorator";
-import { Todo } from "../models";
+import TodoStore from "../TodoStore";
 
 @Component
 export default class TodoFooter extends Vue {
-    @Prop() itemsLeft!: number;
-    @Prop() clearCompleted!: ()=>void;
+    @Prop() todoStore!: TodoStore;
 
     get itemSingularOrPlural(): string {
         return this.itemsLeft === 1 ? 'item' : 'items';
+    }
+
+    get itemsLeft() {
+        return this.todoStore.remaining.length;
     }
 }
 </script>

@@ -20,7 +20,7 @@
             <button class="btn btn-primary" @click="todoStore.toggleAll">Mark all as completed</button>
         </section>
         <section class="card my-2 p-4">
-            <todo-footer v-if="todoStore.size > 0" :itemsLeft="todoStore.remaining.length" :clearCompleted="() => todoStore.clearCompleted()" />
+            <todo-footer v-if="todoStore.size > 0" :todoStore="todoStore" />
         </section>
     </div>
 </div>
