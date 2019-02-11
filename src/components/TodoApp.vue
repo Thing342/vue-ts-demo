@@ -1,3 +1,4 @@
+import {BootstrapType} from "../models";
 <template>
     <div>
         <nav class="navbar navbar-light bg-light border-bottom">
@@ -6,6 +7,7 @@
                 Todos
             </a>
         </nav>
+        <jumbotron :todoStore="todoStore"/>
         <div class="container">
             <section class="card my-2 p-4">
                 <input type="text" class="new-todo" placeholder="What needs to be done?"
@@ -24,7 +26,7 @@
                 <todo-footer :todoStore="todoStore"/>
             </section>
             <section class="card my-2 p-4" v-else>
-                <api-status :todoStore="todoStore" />
+                <api-status :todoStore="todoStore"/>
             </section>
         </div>
     </div>
@@ -35,16 +37,19 @@
     import TodoFooter from "./TodoFooter.vue";
     import TodoHeader from "./TodoHeader.vue";
     import TodoItem from "./TodoItem.vue";
+    import Jumbotron from "./Jumbotron.vue";
 
-    import {Vue, Component, Prop} from "vue-property-decorator";
-    import TodoStore, {TodoStoreState} from "../TodoStore";
+    import {Component, Prop, Vue} from "vue-property-decorator";
+    import TodoStore from "../TodoStore";
+    import {BootstrapType} from "../models";
 
     @Component({
         components: {
             "todo-item": TodoItem,
             "todo-footer": TodoFooter,
             "todo-header": TodoHeader,
-            "api-status": APIStatus
+            "api-status": APIStatus,
+            "jumbotron": Jumbotron
         }
     })
     export default class TodoApp extends Vue {
@@ -54,7 +59,13 @@
         mounted() {
             this.todoStore.fetch("localhost:3000")
                 .then(() => console.log("Fetched todos."))
-                .catch(e => console.error(e));
+                .catch(e => {
+                    console.error(e);
+                    this.todoStore.pushMessage({
+                        type: BootstrapType.DANGER,
+                        text: "Error contacting API. See console for more details."
+                    });
+                });
         }
 
         submitTodo() {

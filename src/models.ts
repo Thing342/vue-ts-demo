@@ -5,7 +5,18 @@ export interface Todo {
     completed: boolean;
 }
 
-export interface AppState {
-    newTodoTitle: string;
-    todos: Todo[];
+export enum BootstrapType {
+    PRIMARY = 'primary',
+    SECONDARY = 'secondary',
+    SUCCESS = 'success',
+    DANGER = 'danger',
+    WARNING = 'warning',
+    INFO = 'info',
+    LIGHT = 'light',
+    DARK = 'dark'
+}
+
+export interface Message {
+    type: BootstrapType,
+    text: string
 }

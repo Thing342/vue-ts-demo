@@ -1,4 +1,4 @@
-import {Todo, TodoId} from "./models";
+import {BootstrapType, Message, Todo, TodoId} from "./models";
 import axios, {AxiosResponse} from 'axios';
 
 export enum TodoStoreState {
@@ -8,6 +8,7 @@ export enum TodoStoreState {
 export default class TodoStore {
 
     todos: Todo[];
+    messages: Message[] = [];
     state: TodoStoreState = TodoStoreState.INIT;
 
     constructor(todos: Todo[] = []) {
@@ -40,6 +41,7 @@ export default class TodoStore {
         }
 
         this.todos.splice(index, 1);
+        this.pushMessage({ type: BootstrapType.INFO, text: "Deleted TODO."});
     }
 
     toggleTodo(index: TodoId): boolean {
@@ -51,14 +53,27 @@ export default class TodoStore {
 
     clearCompleted(): void {
         this.todos = this.remaining;
+        this.pushMessage({type: BootstrapType.INFO, text: "Cleared completed messages."})
     }
 
     toggleAll(): void {
-        console.log(this);
         const stateForAll = this.completed.length !== this.size;
         for (const todo of this.todos) {
             todo.completed = stateForAll
         }
+    }
+
+    pushMessage(msg: Message): void {
+        console.log(msg);
+        this.messages.push(msg);
+    }
+
+    dismissMessage(index: number): void {
+        if (index >= this.messages.length) {
+            throw new Error(`Index deletion at ${index} greater than ${this.messages.length}`)
+        }
+
+        this.messages.splice(index, 1);
     }
 
     get size(): number {
