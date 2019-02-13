@@ -6,6 +6,18 @@
   "resolutions": {
     "ajv": "6.8.1"
   },
+  "scripts": {
+    "clean": "rm -rf dist/",
+    "build:static": "cp static/* dist/",
+    "build:wp": "webpack -d",
+    "build": "run-s build:wp build:static",
+    "build:prod:wp": "webpack -p",
+    "build:prod": "run-s build:prod:wp build:static",
+    "serve:frontend": "webpack-dev-server",
+    "serve:backend": "json-server --watch dev/db.json",
+    "start": "run-p serve:frontend serve:backend",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
   "devDependencies": {
     "ajv": "6.8.1",
     "css-loader": "^2.1.0",
@@ -22,18 +34,9 @@
     "webpack-cli": "^3.2.3",
     "webpack-dev-server": "^3.1.14"
   },
-  "scripts": {
-    "build:static": "cp static/* dist/",
-    "build:wp": "webpack",
-    "build": "run-s build:wp build:static",
-    "serve:frontend": "webpack-dev-server",
-    "serve:backend": "json-server --watch dev/db.json",
-    "start": "run-p serve:frontend serve:backend",
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
   "dependencies": {
     "axios": "^0.18.0",
-    "bootstrap-vue": "^2.0.0-rc.11",
+    "bootstrap": "^4.2.1",
     "vue": "^2.6.4",
     "vue-class-component": "^6.3.2",
     "vue-property-decorator": "^7.3.0"

@@ -61,7 +61,7 @@ module.exports = {
   },
   devServer: {
     historyApiFallback: true,
-    noInfo: true
+    noInfo: false
   },
   performance: {
     hints: false
@@ -69,11 +69,12 @@ module.exports = {
   plugins: [
     new VueLoaderPlugin(),
   ],
-  devtool: '#eval-source-map'
+  devtool: "#cheap-module-source-map"
 }
 
 if (process.env.NODE_ENV === 'production') {
-  module.exports.devtool = '#source-map'
+  module.exports.mode = 'production';
+  module.exports.devtool = undefined;
   // http://vue-loader.vuejs.org/en/workflow/production.html
   module.exports.plugins = (module.exports.plugins || []).concat([
     new webpack.DefinePlugin({
@@ -85,6 +86,10 @@ if (process.env.NODE_ENV === 'production') {
       sourceMap: true,
       compress: {
         warnings: false
+      },
+      uglifyOptions: {
+        comments: false,
+        mangle: true
       }
     }),
     new webpack.LoaderOptionsPlugin({
